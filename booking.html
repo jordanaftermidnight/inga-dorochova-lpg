@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+    Terra Salon and Wellness Spa
+    Designer: Jordan After Midnight
+    Product Owner: George Dorochov
+    Copyright © 2025 Terra Salon and Wellness Spa. All Rights Reserved.
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - Terra Salon and Wellness Spa | Northbrook, IL</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .booking-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .booking-steps {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .step {
+            display: flex;
+            align-items: center;
+            margin: 0 1rem;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .step.active .step-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .step.completed .step-number {
+            background: #28a745;
+            color: white;
+        }
+        
+        .step:not(.active):not(.completed) .step-number {
+            background: #e9ecef;
+            color: #6c757d;
+        }
+        
+        .booking-section {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+        
+        .treatment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .treatment-card {
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .treatment-card:hover {
+            border-color: #667eea;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.15);
+        }
+        
+        .treatment-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+        }
+        
+        .treatment-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .treatment-card.selected::before {
+            opacity: 1;
+        }
+        
+        .calendar-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .calendar {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+        
+        .time-slots {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid #e9ecef;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .calendar-nav {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #667eea;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+        
+        .calendar-nav:hover {
+            background: #667eea15;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .calendar-day.available:hover {
+            background: #667eea15;
+            color: #667eea;
+        }
+        
+        .calendar-day.selected {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .calendar-day.unavailable {
+            color: #ced4da;
+            cursor: not-allowed;
+        }
+        
+        .time-slot {
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        
+        .time-slot:hover {
+            border-color: #667eea;
+            background: #667eea15;
+        }
+        
+        .time-slot.selected {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+        }
+        
+        .booking-summary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid #667eea;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            color: #667eea;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+        }
+        
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        .error-message {
+            background: #dc3545;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: none;
+        }
+        
+        .success-message {
+            background: #28a745;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .calendar-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-steps {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .step {
+                margin: 0.5rem 0;
+            }
+            
+            .treatment-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Terra Salon and Wellness Spa</div>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a href="client-dashboard.html">My Account</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="booking-container">
+        <!-- Progress Steps -->
+        <div class="booking-steps">
+            <div class="step active" id="step-1">
+                <div class="step-number">1</div>
+                <span>Select Treatment</span>
+            </div>
+            <div class="step" id="step-2">
+                <div class="step-number">2</div>
+                <span>Choose Date & Time</span>
+            </div>
+            <div class="step" id="step-3">
+                <div class="step-number">3</div>
+                <span>Your Information</span>
+            </div>
+            <div class="step" id="step-4">
+                <div class="step-number">4</div>
+                <span>Confirmation</span>
+            </div>
+        </div>
+
+        <!-- Error/Success Messages -->
+        <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message"></div>
+
+        <!-- Step 1: Select Treatment -->
+        <div id="treatment-selection" class="booking-section">
+            <h2><i class="fas fa-spa"></i> Select Your Treatment</h2>
+            <p>Choose from our professional LPG Endermologie treatments</p>
+            
+            <div class="treatment-grid" id="treatment-grid">
+                <!-- Treatments will be loaded dynamically -->
+            </div>
+        </div>
+
+        <!-- Step 2: Select Date & Time -->
+        <div id="datetime-selection" class="booking-section hidden">
+            <h2><i class="fas fa-calendar-alt"></i> Choose Date & Time</h2>
+            <p>Select your preferred appointment date and time</p>
+            
+            <div class="calendar-container">
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <button class="calendar-nav" id="prev-month">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <h3 id="calendar-month-year"></h3>
+                        <button class="calendar-nav" id="next-month">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="calendar-grid" id="calendar-grid">
+                        <!-- Calendar days will be generated -->
+                    </div>
+                </div>
+                
+                <div class="time-slots">
+                    <h4>Available Times</h4>
+                    <div id="time-slots-container">
+                        <p>Please select a date first</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Client Information -->
+        <div id="client-information" class="booking-section hidden">
+            <h2><i class="fas fa-user"></i> Your Information</h2>
+            <p>Please provide your contact details</p>
+            
+            <form id="client-form">
+                <div class="form-group">
+                    <label for="firstName">First Name *</label>
+                    <input type="text" id="firstName" name="firstName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="lastName">Last Name *</label>
+                    <input type="text" id="lastName" name="lastName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="dateOfBirth">Date of Birth</label>
+                    <input type="date" id="dateOfBirth" name="dateOfBirth">
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">Special Requests or Health Information</label>
+                    <textarea id="notes" name="notes" rows="3" placeholder="Any allergies, health conditions, or special requests..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="newClient" name="newClient">
+                        This is my first visit to Terra Salon and Wellness Spa
+                    </label>
+                </div>
+            </form>
+        </div>
+
+        <!-- Step 4: Confirmation & Payment -->
+        <div id="booking-confirmation" class="booking-section hidden">
+            <h2><i class="fas fa-check-circle"></i> Booking Confirmation</h2>
+            <p>Please review your appointment details</p>
+            
+            <div class="booking-summary" id="booking-summary">
+                <!-- Summary will be populated -->
+            </div>
+            
+            <div style="margin-top: 2rem;">
+                <button type="button" class="btn-secondary" id="back-to-info">
+                    <i class="fas fa-arrow-left"></i> Back
+                </button>
+                <button type="button" class="btn-primary" id="confirm-booking">
+                    <i class="fas fa-check-circle"></i> Confirm Appointment
+                </button>
+            </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div style="text-align: center; margin-top: 2rem;">
+            <button type="button" class="btn-secondary hidden" id="back-btn">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button type="button" class="btn-primary hidden" id="next-btn">
+                Next <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <script src="js/booking.js"></script>
+</body>
+</html>

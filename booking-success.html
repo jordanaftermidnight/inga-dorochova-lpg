@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+    Terra Salon and Wellness Spa
+    Designer: Jordan After Midnight
+    Product Owner: George Dorochov
+    Copyright © 2025 Terra Salon and Wellness Spa. All Rights Reserved.
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Confirmed - Terra Salon and Wellness Spa</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .success-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .success-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            color: white;
+            font-size: 3rem;
+            animation: checkmark 0.6s ease-in-out;
+        }
+        
+        @keyframes checkmark {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        .success-title {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+        }
+        
+        .success-subtitle {
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .appointment-details {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .detail-value {
+            color: #666;
+            text-align: right;
+        }
+        
+        .payment-notice {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .payment-notice h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.2rem;
+        }
+        
+        .payment-notice p {
+            margin: 0;
+            opacity: 0.9;
+        }
+        
+        .next-steps {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .next-steps h4 {
+            color: #856404;
+            margin: 0 0 1rem 0;
+        }
+        
+        .next-steps ul {
+            margin: 0;
+            padding-left: 1.5rem;
+            color: #856404;
+        }
+        
+        .next-steps li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .appointment-id {
+            background: #e3f2fd;
+            color: #1976d2;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .success-container {
+                padding: 1rem;
+            }
+            
+            .success-card {
+                padding: 2rem;
+            }
+            
+            .detail-row {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+            
+            .detail-value {
+                text-align: center;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-card">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            
+            <h1 class="success-title">Appointment Confirmed!</h1>
+            <p class="success-subtitle">
+                Your appointment at Terra Salon and Wellness Spa has been successfully booked.
+            </p>
+            
+            <div class="appointment-id" id="appointment-id">
+                Loading appointment details...
+            </div>
+            
+            <div class="appointment-details" id="appointment-details">
+                <div class="detail-row">
+                    <span class="detail-label">Loading...</span>
+                    <span class="detail-value">Please wait</span>
+                </div>
+            </div>
+            
+            <div class="payment-notice">
+                <h3><i class="fas fa-info-circle"></i> Payment Information</h3>
+                <p>
+                    Payment will be collected at Terra Salon and Wellness Spa during your visit. 
+                    We accept cash, credit cards, and debit cards.
+                </p>
+            </div>
+            
+            <div class="next-steps">
+                <h4><i class="fas fa-list-check"></i> What's Next?</h4>
+                <ul>
+                    <li>You will receive a confirmation email shortly</li>
+                    <li>Please arrive 10 minutes early for your appointment</li>
+                    <li>Bring a valid ID and any health-related information</li>
+                    <li>Wear comfortable clothing suitable for your treatment</li>
+                    <li>Payment will be processed at the salon after your session</li>
+                </ul>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="index.html" class="btn btn-secondary">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+                <a href="tel:(847) 610-5160" class="btn btn-primary">
+                    <i class="fas fa-phone"></i> Call Salon
+                </a>
+            </div>
+            
+            <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e9ecef; color: #666; font-size: 0.9rem;">
+                <p>
+                    <strong>Terra Salon and Wellness Spa</strong><br>
+                    43 Skokie Blvd, Northbrook, IL 60062<br>
+                    Phone: (847) 610-5160<br>
+                    Email: terrasalonandspa@gmail.com
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class BookingSuccess {
+            constructor() {
+                this.loadAppointmentDetails();
+            }
+            
+            async loadAppointmentDetails() {
+                try {
+                    const bookingId = localStorage.getItem('lastBookingId');
+                    
+                    if (!bookingId) {
+                        this.showError();
+                        return;
+                    }
+                    
+                    // Fetch appointment details
+                    const response = await fetch(`/api/appointments/${bookingId}`);
+                    
+                    if (!response.ok) {
+                        throw new Error('Failed to load appointment details');
+                    }
+                    
+                    const appointment = await response.json();
+                    this.displayAppointmentDetails(appointment);
+                    
+                } catch (error) {
+                    console.error('Error loading appointment details:', error);
+                    this.showError();
+                }
+            }
+            
+            displayAppointmentDetails(appointment) {
+                // Update appointment ID
+                document.getElementById('appointment-id').textContent = 
+                    `Appointment ID: ${appointment.id}`;
+                
+                // Format date
+                const appointmentDate = new Date(appointment.date);
+                const formattedDate = appointmentDate.toLocaleDateString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+                
+                // Calculate tax and total
+                const serviceAmount = appointment.treatment.price;
+                const taxRate = 0.1025; // Cook County 10.25%
+                const taxAmount = serviceAmount * taxRate;
+                const totalAmount = serviceAmount + taxAmount;
+                
+                // Update appointment details
+                const detailsContainer = document.getElementById('appointment-details');
+                detailsContainer.innerHTML = `
+                    <div class="detail-row">
+                        <span class="detail-label"><i class="fas fa-user"></i> Client</span>
+                        <span class="detail-value">${appointment.client.firstName} ${appointment.client.lastName}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label"><i class="fas fa-envelope"></i> Email</span>
+                        <span class="detail-value">${appointment.client.email}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label"><i class="fas fa-phone"></i> Phone</span>
+                        <span class="detail-value">${appointment.client.phone}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label"><i class="fas fa-spa"></i> Treatment</span>
+                        <span class="detail-value">${appointment.treatment.name}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label"><i class="fas fa-calendar"></i> Date</span>
+                        <span class="detail-value">${formattedDate}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label"><i class="fas fa-clock"></i> Time</span>
+                        <span class="detail-value">${appointment.time}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label"><i class="fas fa-hourglass-half"></i> Duration</span>
+                        <span class="detail-value">${appointment.treatment.duration} minutes</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label"><i class="fas fa-dollar-sign"></i> Service Amount</span>
+                        <span class="detail-value">$${serviceAmount.toFixed(2)}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label"><i class="fas fa-receipt"></i> Tax (Cook County)</span>
+                        <span class="detail-value">$${taxAmount.toFixed(2)}</span>
+                    </div>
+                    <div class="detail-row" style="font-weight: bold; font-size: 1.1rem; background: #f8f9fa; margin: 0 -1rem; padding: 1rem;">
+                        <span class="detail-label"><i class="fas fa-credit-card"></i> Total Amount</span>
+                        <span class="detail-value">$${totalAmount.toFixed(2)}</span>
+                    </div>
+                `;
+                
+                // Clear localStorage
+                localStorage.removeItem('lastBookingId');
+            }
+            
+            showError() {
+                document.getElementById('appointment-id').textContent = 'Error loading appointment';
+                document.getElementById('appointment-details').innerHTML = `
+                    <div class="detail-row">
+                        <span class="detail-label" style="color: #dc3545;">
+                            <i class="fas fa-exclamation-triangle"></i> Error
+                        </span>
+                        <span class="detail-value">
+                            Unable to load appointment details. Please contact the salon.
+                        </span>
+                    </div>
+                `;
+            }
+        }
+        
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new BookingSuccess();
+        });
+    </script>
+</body>
+</html>

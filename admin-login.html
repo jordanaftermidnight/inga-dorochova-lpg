@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+    Terra Salon and Wellness Spa
+    Designer: Jordan After Midnight
+    Product Owner: George Dorochov
+    Copyright © 2025 Terra Salon and Wellness Spa. All Rights Reserved.
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Terra Salon and Wellness Spa</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Lato:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .login-title {
+            margin: 0 0 0.5rem 0;
+            color: #333;
+            font-size: 1.8rem;
+        }
+        
+        .login-subtitle {
+            margin: 0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .login-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .error-message {
+            background: #dc3545;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+        
+        .back-link {
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .admin-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .admin-info strong {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h1 class="login-title">Admin Access</h1>
+                <p class="login-subtitle">Terra Salon and Wellness Spa</p>
+            </div>
+            
+            <div class="admin-info">
+                <strong>Admin Login Required</strong><br>
+                Enter your administrator credentials to access the dashboard.
+            </div>
+            
+            <div id="error-message" class="error-message"></div>
+            
+            <form id="admin-login-form">
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required 
+                           placeholder="admin@terrasalonandspa.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required 
+                           placeholder="Enter your password">
+                </div>
+                
+                <div class="form-group">
+                    <label for="adminSecret">Admin Secret Key</label>
+                    <input type="password" id="adminSecret" name="adminSecret" required 
+                           placeholder="Enter admin secret key">
+                </div>
+                
+                <button type="submit" class="login-btn" id="login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login to Dashboard
+                </button>
+            </form>
+            
+            <div class="back-link">
+                <a href="index.html">
+                    <i class="fas fa-arrow-left"></i> Back to Website
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class AdminLogin {
+            constructor() {
+                this.setupEventListeners();
+            }
+            
+            setupEventListeners() {
+                document.getElementById('admin-login-form').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleLogin();
+                });
+            }
+            
+            async handleLogin() {
+                const loginBtn = document.getElementById('login-btn');
+                const errorDiv = document.getElementById('error-message');
+                
+                // Get form data
+                const formData = new FormData(document.getElementById('admin-login-form'));
+                const email = formData.get('email');
+                const password = formData.get('password');
+                const adminSecret = formData.get('adminSecret');
+                
+                // Validate inputs
+                if (!email || !password || !adminSecret) {
+                    this.showError('All fields are required');
+                    return;
+                }
+                
+                // Show loading state
+                loginBtn.disabled = true;
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Authenticating...';
+                errorDiv.style.display = 'none';
+                
+                try {
+                    // Simple admin authentication (for development)
+                    // In production, this would be a proper API call
+                    if (email === 'admin@terrasalonandspa.com' && 
+                        password === 'admin123' && 
+                        adminSecret === 'terra2025') {
+                        
+                        // Store admin session
+                        const adminToken = 'admin_' + Date.now() + '_' + Math.random().toString(36).substring(7);
+                        localStorage.setItem('adminToken', adminToken);
+                        localStorage.setItem('adminUser', JSON.stringify({
+                            id: 'admin_1',
+                            firstName: 'Terra',
+                            lastName: 'Admin',
+                            email: email,
+                            role: 'admin'
+                        }));
+                        
+                        // Redirect to dashboard
+                        window.location.href = 'admin-dashboard.html';
+                        
+                    } else {
+                        throw new Error('Invalid admin credentials');
+                    }
+                    
+                } catch (error) {
+                    this.showError(error.message || 'Login failed. Please try again.');
+                } finally {
+                    loginBtn.disabled = false;
+                    loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Login to Dashboard';
+                }
+            }
+            
+            showError(message) {
+                const errorDiv = document.getElementById('error-message');
+                errorDiv.textContent = message;
+                errorDiv.style.display = 'block';
+                
+                setTimeout(() => {
+                    errorDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+        
+        // Initialize admin login when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new AdminLogin();
+        });
+    </script>
+</body>
+</html>
