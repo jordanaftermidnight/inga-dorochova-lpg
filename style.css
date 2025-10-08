@@ -913,6 +913,13 @@ tbody tr:hover {
     border: none;
 }
 
+.video-container video {
+    width: 100%;
+    height: auto;
+    max-width: 100%;
+    display: block;
+}
+
 .gallery-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -1250,7 +1257,12 @@ footer {
     .video-container iframe {
         height: 250px;
     }
-    
+
+    .video-container video {
+        width: 100%;
+        height: auto;
+    }
+
     .testimonials-container {
         max-width: 95%;
         margin: 0 auto;
